@@ -55,6 +55,15 @@ class Row(object):
         self.space_below = 0
 
 
+    def set_height(self, height, mismatch=True):
+        if not(isinstance(height, int) and 0 <= height <= 65535):
+            raise ValueError("column height (%r) not an int in range(65536)" % height)
+        self.has_default_height = 0x00
+        if mismatch:
+            self.height_mismatch = 0x01
+        self.height = height
+        
+
     def __adjust_height(self, style):
         twips = style.font.height
         points = float(twips)/20.0
@@ -287,7 +296,3 @@ class Row(object):
 
     write_blanks = set_cell_mulblanks
     write_rich_text = set_cell_rich_text
-
-
-
-
